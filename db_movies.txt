@@ -1,0 +1,86 @@
+ACTIVITY
+
+Create DDL for the following. Present Documentation.
+
+Schema: db_movies
+Movies (title,year,length,genre,studio_id,producer_id)
+StarsIn(movie_id, movieYear, star_id)
+MovieStar(name, address, gender, birthdate)
+Producer(name, address, netWorth)
+Studio(name, address)
+
+NOTE: 
+Use VARCHAR for birthdate, year, and movieYear 
+Set VARCHAR to 150 and INT to 10
+
+
+
+DOCUMENT ACTIVITY
+
+
+CREATE TABLE tbl_movieStars (
+id INT(10) NOT NULL UNIQUE AUTO_INCREMENT,
+name VARCHAR(150) NOT NULL,
+address VARCHAR(150),
+gender VARCHAR(150),
+birthdate VARCHAR(150),
+PRIMARY KEY(id)
+);
+
+CREATE TABLE tbl_producers (
+id INT(10) NOT NULL UNIQUE AUTO_INCREMENT,
+name VARCHAR(150) NOT NULL,
+address VARCHAR(150),
+netWorth INT(10),
+PRIMARY KEY(id)
+);
+
+CREATE TABLE tbl_studios (
+id INT(10) NOT NULL UNIQUE AUTO_INCREMENT,
+name VARCHAR(150) NOT NULL,
+address VARCHAR(150),
+PRIMARY KEY(id)
+);
+
+CREATE TABLE tbl_starsIn (
+id INT(10) NOT NULL UNIQUE AUTO_INCREMENT,
+movieYear VARCHAR(150) NOT NULL,
+movie_id INT(10),
+star_id INT(10),
+PRIMARY KEY(id),
+FOREIGN KEY(movie_id) REFERENCES tbl_movies(id)
+	ON UPDATE CASCADE
+	ON DELETE SET NULL,
+FOREIGN KEY(star_id) REFERENCES tbl_movieStars(id)
+	ON UPDATE CASCADE
+	ON DELETE SET NULL
+);
+
+CREATE TABLE tbl_movies (
+id INT(10) NOT NULL UNIQUE AUTO_INCREMENT,
+title VARCHAR(150) NOT NULL,
+year VARCHAR(150) NOT NULL,
+length INT(10),
+genre VARCHAR(150),
+studio_id INT(10),
+producer_id INT(10),
+PRIMARY KEY(id),
+FOREIGN KEY(studio_id) REFERENCES tbl_studios(id)
+	ON UPDATE CASCADE
+	ON DELETE SET NULL,
+FOREIGN KEY(producer_id) REFERENCES tbl_producers(id)
+	ON UPDATE CASCADE
+	ON DELETE SET NULL
+);
+
+
+NOTE: I forgot to indicate INT(10) and UNIQUE to all IDs. I did the following AND IT WORKED:
+
+ALTER TABLE tbl_movies CHANGE id id INT(10) NOT NULL UNIQUE AUTO_INCREMENT;
+ALTER TABLE tbl_starsIn CHANGE id id INT(10) NOT NULL UNIQUE AUTO_INCREMENT;
+ALTER TABLE tbl_movieStars CHANGE id id INT(10) NOT NULL UNIQUE AUTO_INCREMENT;
+ALTER TABLE tbl_producers CHANGE id id INT(10) NOT NULL UNIQUE AUTO_INCREMENT;
+ALTER TABLE tbl_studios CHANGE id id INT(10) NOT NULL UNIQUE AUTO_INCREMENT;
+
+
+
